@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Result Card</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#dbeafe,#e0e7ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.result-card{
+    width:850px;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.header{
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+.header h1{
+    margin-bottom:8px;
+}
+
+.student-info{
+    padding:25px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    background:#f8fafc;
+}
+
+.student-info div{
+    font-size:16px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#4338ca;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    text-align:center;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+table tr:nth-child(even){
+    background:#f3f4f6;
+}
+
+.summary{
+    display:flex;
+    justify-content:space-around;
+    padding:25px;
+    background:#eef2ff;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.pass{
+    color:green;
+}
+
+.fail{
+    color:red;
+}
+
+.footer{
+    text-align:center;
+    padding:15px;
+    background:#1e293b;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="result-card">
+
+    <div class="header">
+        <h1>ABC Public School</h1>
+        <h2>Student Result Card</h2>
+    </div>
+
+    <div class="student-info">
+        <div><strong>Name:</strong> Samrat Prajapati</div>
+        <div><strong>Roll No:</strong> 202501</div>
+        <div><strong>Class:</strong> B.Tech CSE</div>
+        <div><strong>Semester:</strong> 4th</div>
+        <div><strong>Session:</strong> 2025-26</div>
+        <div><strong>Branch:</strong> Computer Science</div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Maximum Marks</th>
+            <th>Obtained Marks</th>
+            <th>Grade</th>
+        </tr>
+
+        <tr>
+            <td>Mathematics</td>
+            <td>100</td>
+            <td>92</td>
+            <td>A+</td>
+        </tr>
+
+        <tr>
+            <td>Programming</td>
+            <td>100</td>
+            <td>88</td>
+            <td>A</td>
+        </tr>
+
+        <tr>
+            <td>Data Structures</td>
+            <td>100</td>
+            <td>85</td>
+            <td>A</td>
+        </tr>
+
+        <tr>
+            <td>Database Management</td>
+            <td>100</td>
+            <td>80</td>
+            <td>B+</td>
+        </tr>
+
+        <tr>
+            <td>Operating System</td>
+            <td>100</td>
+            <td>90</td>
+            <td>A+</td>
+        </tr>
+    </table>
+
+    <div class="summary">
+        <div>Total: 435 / 500</div>
+        <div>Percentage: 87%</div>
+        <div class="pass">Result: PASS</div>
+    </div>
+
+    <div class="footer">
+        © 2026 Student Result Management System
+    </div>
+
+</div>
+
+</body>
+</html>
