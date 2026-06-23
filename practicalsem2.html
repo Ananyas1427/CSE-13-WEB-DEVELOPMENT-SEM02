@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input type="number" id="n" placeholder="Enter number">
+<button onclick="check()">Check</button>
+
+<p id="result"></p>
+
+<script>
+function check() {
+    let n = document.getElementById("n").value;
+    document.getElementById("result").innerHTML =
+        (n % 2 == 0) ? "Even Number" : "Odd Number";
+}
+</script>
+
+</body>
+</html>
