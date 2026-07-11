@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnanyaVerse - Mini Game Portfolio</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(#0b1020,#1b2340);
+overflow:hidden;
+color:white;
+}
+
+#game{
+display:block;
+margin:20px auto;
+border:5px solid #00e5ff;
+background:#74c365;
+image-rendering:pixelated;
+}
+
+#hud{
+width:800px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+color:#fff;
+font-size:18px;
+padding:10px;
+}
+
+#popup{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#111827;
+border:3px solid cyan;
+padding:20px;
+width:420px;
+display:none;
+border-radius:10px;
+box-shadow:0 0 20px cyan;
+}
+
+#popup h2{
+margin-bottom:10px;
+color:#00e5ff;
+}
+
+#popup button{
+margin-top:15px;
+padding:10px 20px;
+background:#00e5ff;
+border:none;
+cursor:pointer;
+font-weight:bold;
+}
+
+#start{
+position:absolute;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:#0b1020;
+}
+
+#start h1{
+font-size:48px;
+margin-bottom:20px;
+color:#00e5ff;
+}
+
+#start p{
+margin-bottom:20px;
+}
+
+#start button{
+padding:15px 35px;
+font-size:18px;
+background:#00e5ff;
+border:none;
+cursor:pointer;
+border-radius:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="start">
+<h1>🎮 ANANYAVERSE</h1>
+<p>Explore the map and discover my portfolio.</p>
+<button onclick="startGame()">Start Game</button>
+</div>
+
+<div id="hud">
+<div>⭐ XP : <span id="xp">0</span></div>
+<div>🏆 Progress : <span id="progress">0/4</span></div>
+</div>
+
+<canvas id="game" width="800" height="500"></canvas>
+
+<div id="popup">
+<h2 id="title"></h2>
+<p id="text"></p>
+<button onclick="closePopup()">Close</button>
+</div>
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+const popup=document.getElementById("popup");
+
+const title=document.getElementById("title");
+
+const text=document.getElementById("text");
+
+const xp=document.getElementById("xp");
+
+const progress=document.getElementById("progress");
+
+let score=0;
+let completed=0;
+
+const player={
+x:380,
+y:240,
+size:20,
+speed:4
+};
+
+const keys={};
+
+const buildings=[
+{
+x:70,
+y:70,
+color:"#ff5252",
+name:"About Me",
+text:"Hi! I'm Ananya Singh, a CSE student passionate about UI/UX, Web Development and building creative projects.",
+visited:false
+},
+{
+x:620,
+y:70,
+color:"#42a5f5",
+name:"Projects",
+text:"Projects: Cloud Vault, Shopping Website, Calculator, Weather App and more.",
+visited:false
+},
+{
+x:70,
+y:340,
+color:"#66bb6a",
+name:"Skills",
+text:"Skills: HTML, CSS, JavaScript, C++, Git, UI/UX Design.",
+visited:false
+},
+{
+x:620,
+y:340,
+color:"#ffca28",
+name:"Contact",
+text:"Email: your@email.com\nGitHub: github.com/yourusername\nLinkedIn: linkedin.com/in/yourname",
+visited:false
+}
+];
+
+document.addEventListener("keydown",e=>{
+keys[e.key]=true;
+
+if(e.key=="e"||e.key=="E"){
+checkInteraction();
+}
+});
+
+document.addEventListener("keyup",e=>{
+keys[e.key]=false;
+});
+
+function startGame(){
+
+document.getElementById("start").style.display="none";
+
+loop();
+
+}
+
+function drawPlayer(){
+
+ctx.fillStyle="purple";
+
+ctx.fillRect(player.x,player.y,player.size,player.size);
+
+ctx.fillStyle="white";
+
+ctx.fillRect(player.x+6,player.y+4,3,3);
+
+ctx.fillRect(player.x+12,player.y+4,3,3);
+
+}
+
+function drawBuildings(){
+
+buildings.forEach(b=>{
+
+ctx.fillStyle=b.color;
+
+ctx.fillRect(b.x,b.y,110,90);
+
+ctx.fillStyle="black";
+
+ctx.font="16px Arial";
+
+ctx.fillText(b.name,b.x+10,b.y+45);
+
+});
+
+}
+function movePlayer(){
+
+if(keys["ArrowUp"]||keys["w"]||keys["W"])
+player.y-=player.speed;
+
+if(keys["ArrowDown"]||keys["s"]||keys["S"])
+player.y+=player.speed;
+
+if(keys["ArrowLeft"]||keys["a"]||keys["A"])
+player.x-=player.speed;
+
+if(keys["ArrowRight"]||keys["d"]||keys["D"])
+player.x+=player.speed;
+
+if(player.x<0) player.x=0;
+if(player.y<0) player.y=0;
+
+if(player.x>canvas.width-player.size)
+player.x=canvas.width-player.size;
+
+if(player.y>canvas.height-player.size)
+player.y=canvas.height-player.size;
+
+}
+
+function checkInteraction(){
+
+buildings.forEach(b=>{
+
+let dx=player.x-(b.x+55);
+let dy=player.y-(b.y+45);
+
+let distance=Math.sqrt(dx*dx+dy*dy);
+
+if(distance<80){
+
+title.innerText=b.name;
+text.innerText=b.text;
+popup.style.display="block";
+
+if(!b.visited){
+
+b.visited=true;
+
+score+=25;
+
+completed++;
+
+xp.innerText=score;
+
+progress.innerText=completed+"/4";
+
+}
+
+}
+
+});
+
+}
+
+function closePopup(){
+
+popup.style.display="none";
+
+if(completed===4){
+
+setTimeout(()=>{
+
+alert(
+"🎉 Congratulations!\n\nMission Complete!\n\nThanks for exploring AnanyaVerse.\n\n⭐ XP : "+score
+);
+
+},300);
+
+}
+
+}
+
+function drawGround(){
+
+ctx.fillStyle="#7cc96b";
+ctx.fillRect(0,0,800,500);
+
+ctx.strokeStyle="#6fb15f";
+
+for(let i=0;i<800;i+=40){
+
+ctx.beginPath();
+
+ctx.moveTo(i,0);
+
+ctx.lineTo(i,500);
+
+ctx.stroke();
+
+}
+
+for(let j=0;j<500;j+=40){
+
+ctx.beginPath();
+
+ctx.moveTo(0,j);
+
+ctx.lineTo(800,j);
+
+ctx.stroke();
+
+}
+
+}
+
+function drawInstructions(){
+
+ctx.fillStyle="white";
+
+ctx.font="18px Arial";
+
+ctx.fillText("Walk near a building and press E",220,25);
+
+}
+
+function loop(){
+
+ctx.clearRect(0,0,800,500);
+
+drawGround();
+
+drawBuildings();
+
+drawPlayer();
+
+drawInstructions();
+
+movePlayer();
+
+requestAnimationFrame(loop);
+
+}
+
+</script>
+
+</body>
+</html>
